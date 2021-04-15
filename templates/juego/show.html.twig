@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Juego{% endblock %}
+
+{% block body %}
+    <h1>Juego</h1>
+
+    <table class="tabletable table-striped">
+        <tbody>
+            <tr>
+                <th scope="col">Id</th>
+                <td>{{ juego.id }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Nombre</th>
+                <td>{{ juego.nombre }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Precio</th>
+                <td>{{ juego.precio }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Imagen</th>
+                <td>{{ juego.imagen }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Descripcion</th>
+                <td>{{ juego.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('juego_index') }}">back to list</a>
+
+    <a href="{{ path('juego_edit', {'id': juego.id}) }}">edit</a>
+
+    {{ include('juego/_delete_form.html.twig') }}
+{% endblock %}
