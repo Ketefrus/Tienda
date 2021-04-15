@@ -5,7 +5,27 @@
 {% block body %}
     <h1>Juego index</h1>
 
-    <table class="table">
+    <div class="card-deck m-4">
+        {% for juego in juegos %}
+        <div class="card shadow" style="width: 18rem;">
+            <img width="50" height="250" class="card-img-top" src="{% if juego.imagen is empty %}/imgs/noimg.png{% else %}{{ asset(juego.imagen) }}{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">
+                {{ juego.nombre }}
+                </h5>
+                <p class="card-text"> {{ juego.descripcion }} </p>
+                <div class="row">
+                    <div class="col"> {{ juego.precio }}€ </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a class="btn btn-info" href="{{ path('juego_show', {'id': juego.id}) }}">show</a>
+                <a class="btn btn-primary" href="{{ path('juego_edit', {'id': juego.id}) }}">edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {# <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -35,7 +55,7 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table> #}
 
     <a href="{{ path('juego_new') }}">Create new</a>
 {% endblock %}
