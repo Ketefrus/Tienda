@@ -3,28 +3,18 @@
 {% block title %}Juego index{% endblock %}
 
 {% block body %}
-    <h1>Juego index</h1>
+<div class="container">
+    <h1 class=" m-4 display-4">Juego index</h1>
 
-    <div class="card-deck m-4">
+    <div class="row row-cols-1 row-cols-sm-4 g-4">
         {% for juego in juegos %}
-        <div class="card shadow" style="width: 18rem;">
-            <img width="50" height="250" class="card-img-top" src="{% if juego.imagen is empty %}/imgs/noimg.png{% else %}{{ asset(juego.imagen) }}{% endif %}">
-            <div class="card-body">
-                <h5 class="card-title">
-                {{ juego.nombre }}
-                </h5>
-                <p class="card-text"> {{ juego.descripcion }} </p>
-                <div class="row">
-                    <div class="col"> {{ juego.precio }}€ </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent">
-                <a class="btn btn-info" href="{{ path('juego_show', {'id': juego.id}) }}">show</a>
-                <a class="btn btn-primary" href="{{ path('juego_edit', {'id': juego.id}) }}">edit</a>
-            </div>
+        <div class="col">
+            {% include 'shared/_juegoCard.html.twig' with {'juego': juego } only %}
         </div>
         {% endfor %}
+        </div>
     </div>
+</div>
     {# <table class="table">
         <thead>
             <tr>
