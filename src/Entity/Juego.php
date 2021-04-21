@@ -37,6 +37,12 @@ class Juego
      */
     private $descripcion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="juegos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categoria;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class Juego
     public function setDescripcion(string $descripcion): self
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function getCategoria(): ?Categoria
+    {
+        return $this->categoria;
+    }
+
+    public function setCategoria(?Categoria $categoria): self
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }
