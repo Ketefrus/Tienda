@@ -1,21 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Juego index{% endblock %}
+{% block title %}Juego index
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class=" m-4 display-4">Juego index</h1>
-
-    <div class="row row-cols-1 row-cols-sm-4 g-4">
-        {% for juego in juegos %}
-        <div class="col">
-            {% include 'shared/_juegoCard.html.twig' with {'juego': juego } only %}
-        </div>
-        {% endfor %}
-        </div>
-    </div>
+	<div class="container">
+		<h1 class=" m-4 display-4">Juego index</h1>
+		<form class="input-group rounded mb-4" method="post" action="{{ path("juego_index")}}">
+			<input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+			<span class="input-group-text border-0" id="search-addon">
+				<button class="btn btn-sm btn-link" type="submit"><i class="fas fa-search"></i></button>
+			</span>
+		</form>
+  
+		<div class="row row-cols-1 row-cols-sm-4 g-4">
+			{% for juego in juegos %}
+				<div class="col">
+					{% include 'shared/_juegoCard.html.twig' with {'juego': juego } only %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 </div>
-    {# <table class="table">
+{# <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -47,5 +54,4 @@
         </tbody>
     </table> #}
 
-    <a href="{{ path('juego_new') }}">Create new</a>
-{% endblock %}
+<a href="{{ path('juego_new') }}">Create new</a>{% endblock %}

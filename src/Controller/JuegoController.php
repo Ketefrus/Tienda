@@ -16,12 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class JuegoController extends AbstractController
 {
     /**
-     * @Route("/", name="juego_index", methods={"GET"})
+     * @Route("/", name="juego_index", methods={"GET","POST"})
      */
-    public function index(JuegoRepository $juegoRepository): Response
+    public function index(JuegoRepository $juegoRepository, Request $request): Response
     {
+        $busqueda = '';
+
+        if ($request->getMethod() === 'POST')
+        {
+            $busqueda = $request->request->get('search');
+        }
+        $juegos = $juegoRepository->findJuegos($busqueda);
+
         return $this->render('juego/index.html.twig', [
-            'juegos' => $juegoRepository->findAll(),
+            'juegos' => $juegos,
         ]);
     }
 

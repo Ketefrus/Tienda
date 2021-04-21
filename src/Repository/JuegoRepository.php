@@ -19,6 +19,32 @@ class JuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Juego::class);
     }
 
+    public function findJuegos(string $busqueda)
+    {
+        $qb = $this->createQueryBuilder('j');
+        
+        $qb->where(
+                $qb->expr()->like('j.nombre', ":busqueda")
+            // )->andWhere(
+            //     $qb->expr()->like('j.descripcion', ":busqueda")
+            )->setParameter('busqueda', '%'.$busqueda.'%');
+
+        $qb->orderBy('j.nombre', 'ASC');
+
+        return $qb->getQuery()->execute();
+    }
+
+    // +    public function findContactos(string $busqueda) {
+    //     +        $qb = $this->createQueryBuilder('c');
+    //     +        $qb->where(
+    //     +            $qb->expr()->notLike('c.nombre', ":busqueda")
+    //     +        )->andWhere(
+    //     +            $qb->expr()->like('c.telefono', ":busqueda")
+    //     +        )->setParameter('busqueda', '%'.$busqueda.'%');
+    //     +        $qb->orderBy('c.nombre', 'ASC');
+    //     +
+    //     +        return $qb->getQuery()->execute();
+    //     +    }
     // /**
     //  * @return Juego[] Returns an array of Juego objects
     //  */
