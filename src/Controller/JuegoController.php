@@ -20,12 +20,9 @@ class JuegoController extends AbstractController
      */
     public function index(JuegoRepository $juegoRepository, Request $request): Response
     {
-        $busqueda = '';
+        $busqueda = $request->getMethod() === 'POST' ?
+            $request->request->get('search') : '';
 
-        if ($request->getMethod() === 'POST')
-        {
-            $busqueda = $request->request->get('search');
-        }
         $juegos = $juegoRepository->findJuegos($busqueda);
 
         return $this->render('juego/index.html.twig', [

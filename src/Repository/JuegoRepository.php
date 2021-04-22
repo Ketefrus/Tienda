@@ -22,13 +22,17 @@ class JuegoRepository extends ServiceEntityRepository
     public function findJuegos(string $busqueda)
     {
         $qb = $this->createQueryBuilder('j');
-        
-        $qb->where(
-                $qb->expr()->like('j.nombre', ":busqueda")
-            // )->andWhere(
-            //     $qb->expr()->like('j.descripcion', ":busqueda")
-            )->setParameter('busqueda', '%'.$busqueda.'%');
+        $qb->innerJoin('j.categoria', 'categoria');
 
+        if (!empty($busqueda)) {
+            $qb
+                ->where(
+                    $qb->expr()->like('j.nombre', ':busqueda')
+                    // )->andWhere(
+                    //     $qb->expr()->like('j.descripcion', ":busqueda")
+                )
+                ->setParameter('busqueda', '%' . $busqueda . '%');
+        }
         $qb->orderBy('j.nombre', 'ASC');
 
         return $qb->getQuery()->execute();
