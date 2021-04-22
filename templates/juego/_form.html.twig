@@ -1,4 +1,44 @@
+{# <div class="container">
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+</div> #}
+
+<div class="card-body">
+  <div class="m-3 mt-4">
+    {{ form_start(form) }}
+    <div class="row">
+      <div class="col-6">
+        {{ form_row(form.nombre) }}
+        <span class="text-end">{{ form_errors(form.nombre) }}</span>
+      </div>
+      <div class="col-3">
+        {{ form_row(form.precio) }}
+        <span class="text-end">{{ form_errors(form.precio) }}</span>
+      </div>
+      <div class="col-3">
+        {{ form_row(form.categoria) }}
+        <span class="text-end">{{ form_errors(form.categoria) }}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        {{ form_row(form.descripcion) }}
+        <span class="text-end">{{ form_errors(form.descripcion) }}</span>
+      </div>
+      <div class="col">
+        {{ form_row(form.imagen) }}
+        <span class="text-end">{{ form_errors(form.imagen) }}</span>
+      </div>
+    </div>
+    
+    <div class="col gap-2 d-md-flex justify-content-md-end">
+      <button class="btn btn-success mt-2">
+        {{ button_label|default('Guardar') }}
+      </button>
+    </div>
+    {{ form_end(form) }}
+  </div>
+</div>

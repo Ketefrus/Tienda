@@ -3,9 +3,14 @@
 {% block title %}New Juego{% endblock %}
 
 {% block body %}
-    <h1>Create new Juego</h1>
-
+<div class="container">
+<div class="card bg-light mt-4">
+ <div class="card-header">
+    <h1>Añade un juego Juego</h1>
+</div>
     {{ include('juego/_form.html.twig') }}
 
-    <a href="{{ path('juego_index') }}">back to list</a>
+    <a href="{{ path('juego_index') }}">Volver</a>
+</div>
+</div>
 {% endblock %}

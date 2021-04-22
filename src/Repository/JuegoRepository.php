@@ -22,6 +22,8 @@ class JuegoRepository extends ServiceEntityRepository
     public function findJuegos(string $busqueda)
     {
         $qb = $this->createQueryBuilder('j');
+        
+        $qb->addSelect('categoria');
         $qb->innerJoin('j.categoria', 'categoria');
 
         if (!empty($busqueda)) {

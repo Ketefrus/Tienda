@@ -16,6 +16,7 @@ class JuegoType extends AbstractType
             ->add('precio')
             ->add('imagen')
             ->add('descripcion')
+            ->add('categoria')
         ;
     }
 
