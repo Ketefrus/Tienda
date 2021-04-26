@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\FileUploader;
+// use App\Service\FileUploader;
 
 
 /**
@@ -35,7 +35,7 @@ class JuegoController extends AbstractController
     /**
      * @Route("juego/new", name="juego_new", methods={"GET","POST"})
      */
-    public function new(Request $request, FileUploader $fileUploader): Response
+    public function new(Request $request): Response
     {
         $juego = new Juego();
         $form = $this->createForm(JuegoType::class, $juego);
@@ -44,9 +44,20 @@ class JuegoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imagen = $form->get('imagen')->getData();
             if ($imagen) {
-                $imagenFileName = $fileUploader->upload($imagen);
-                $juego->setImagen($imagenFileName);
+                $originalFilename = pathinfo($imagen->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$imagen->guessExtension();
+
+                try {
+                    $imagen->move(
+                        $this->getParameter('img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new BadRequestException($e->getMessage());
+                }
+                $juego->setImagen($newFilename);
             }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($juego);
             $entityManager->flush();
