@@ -1,3 +1,3 @@
-#index:
+#juego:
 #    path: /
 #    controller: \App\Controller\JuegoController::index

@@ -9,9 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
+
 
 /**
- * @Route("/juego")
+ * @Route("/")
  */
 class JuegoController extends AbstractController
 {
@@ -31,15 +33,20 @@ class JuegoController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="juego_new", methods={"GET","POST"})
+     * @Route("juego/new", name="juego_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
         $juego = new Juego();
         $form = $this->createForm(JuegoType::class, $juego);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imagen = $form->get('imagen')->getData();
+            if ($imagen) {
+                $imagenFileName = $fileUploader->upload($imagen);
+                $juego->setImagen($imagenFileName);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($juego);
             $entityManager->flush();
@@ -54,7 +61,7 @@ class JuegoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="juego_show", methods={"GET"})
+     * @Route("juego/{id}", name="juego_show", methods={"GET"})
      */
     public function show(Juego $juego): Response
     {
@@ -64,7 +71,7 @@ class JuegoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="juego_edit", methods={"GET","POST"})
+     * @Route("juego/{id}/edit", name="juego_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Juego $juego): Response
     {
@@ -84,7 +91,7 @@ class JuegoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="juego_delete", methods={"POST"})
+     * @Route("juego/{id}", name="juego_delete", methods={"POST"})
      */
     public function delete(Request $request, Juego $juego): Response
     {
