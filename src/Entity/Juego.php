@@ -34,6 +34,7 @@ class Juego
      */
     private $imagen;
 
+    private $imagenFile;
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -74,18 +75,36 @@ class Juego
         return $this;
     }
 
-    public function getImagen(): ?string
+    public function getImagen()
     {
         return $this->imagen;
     }
 
-    public function setImagen(?string $imagen): self
+    public function setImagen($imagen): self
     {
         $this->imagen = $imagen;
 
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImagenFile()
+    {
+        return $this->imagenFile;
+    }
+
+    /**
+     * @param mixed $imagenFile
+     * @return Juego
+     */
+    public function setImagenFile($imagenFile)
+    {
+        $this->imagenFile = $imagenFile;
+        return $this;
+    }
+    
     public function getDescripcion(): ?string
     {
         return $this->descripcion;

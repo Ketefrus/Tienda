@@ -26,7 +26,7 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            throw new BadRequestHttpException($e->getMessage());
         }
 
         return $fileName;
@@ -35,5 +35,12 @@ class FileUploader
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
+    }
+
+    public function getFile(string $fileName) : File
+    {
+        return new File(
+            $this->targetDirectory . '/' . $fileName
+        );
     }
 }

@@ -22,8 +22,8 @@ class JuegoType extends AbstractType
             ->add('precio')
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen',
-                'mapped' => true,
-                'required' => true,
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

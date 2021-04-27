@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Juego;
 use App\Form\JuegoType;
 use App\Repository\JuegoRepository;
+use App\Service\FileUploader;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-// use App\Service\FileUploader;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @Route("/")
@@ -20,10 +23,12 @@ class JuegoController extends AbstractController
     /**
      * @Route("/", name="juego_index", methods={"GET","POST"})
      */
-    public function index(JuegoRepository $juegoRepository, Request $request): Response
+    public function index(JuegoRepository $juegoRepository, Request $request ): Response 
     {
-        $busqueda = $request->getMethod() === 'POST' ?
-            $request->request->get('search') : '';
+        $busqueda =
+            $request->getMethod() === 'POST'
+                ? $request->request->get('search')
+                : '';
 
         $juegos = $juegoRepository->findJuegos($busqueda);
 
@@ -35,36 +40,32 @@ class JuegoController extends AbstractController
     /**
      * @Route("juego/new", name="juego_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
-        $juego = new Juego();
-        $form = $this->createForm(JuegoType::class, $juego);
-        $form->handleRequest($request);
+        $error = '';
+        try {
+            $juego = new Juego();
+            $form = $this->createForm(JuegoType::class, $juego);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $imagen = $form->get('imagen')->getData();
-            if ($imagen) {
-                $originalFilename = pathinfo($imagen->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$imagen->guessExtension();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $imagen = $form->get('imagen')->getData();
 
-                try {
-                    $imagen->move(
-                        $this->getParameter('img_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    throw new BadRequestException($e->getMessage());
+                if ($imagen) {
+                    $juego->setImagenFile($imagen);
+                    // $newFilename = $fileUploader->upload($imagen);
+                    // $juego->setImagen($newFilename);
                 }
-                $juego->setImagen($newFilename);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($juego);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('juego_index');
             }
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($juego);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('juego_index');
+        } catch (FileException $e) {
+            $error = $e->getMessage();
         }
-
         return $this->render('juego/new.html.twig', [
             'juego' => $juego,
             'form' => $form->createView(),
@@ -84,13 +85,23 @@ class JuegoController extends AbstractController
     /**
      * @Route("juego/{id}/edit", name="juego_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Juego $juego): Response
+    public function edit(Request $request, Juego $juego, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(JuegoType::class, $juego);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $juego = $form->getData();
+            $imagen = $form['imagen']->getData();
+            // TODO: Incluir UpdateAt en la Entidad (día 29 enero, min 38:28)
+            if ($imagen) {
+                $newFilename = $fileUploader->upload($imagen);
+                $juego->setImagen($newFilename);
+            }
+
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             return $this->redirectToRoute('juego_index');
         }
@@ -106,7 +117,12 @@ class JuegoController extends AbstractController
      */
     public function delete(Request $request, Juego $juego): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$juego->getId(), $request->request->get('_token'))) {
+        if (
+            $this->isCsrfTokenValid(
+                'delete' . $juego->getId(),
+                $request->request->get('_token')
+            )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($juego);
             $entityManager->flush();

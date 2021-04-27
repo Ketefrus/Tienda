@@ -5,7 +5,15 @@
 {{ form_end(form) }}
 </div> #}
 
-<div class="card-body">
+<div class="card-body"> 
+{% if error is defined and error is not empty %}
+  <div class="row">
+    <div class="alert alert-danger col-12">
+      {{ error }}
+    </div>
+  </div>
+  {% endif %}
+  
   <div class="m-3 mt-4">
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} ) }}
     <div class="row">
