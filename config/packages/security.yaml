@@ -1,7 +1,28 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        users_in_memory:
+            memory: 
+                users:
+                    admin:
+                        password: $2y$12$iJWmz0pqHFlVDge5bbG7ReX7v3XzZR0xDyTa0L8mNX3tQEPjdc6Cm
+                        roles: 'ROLE_ADMIN'
+                    frus:
+                        password: $2y$12$iJWmz0pqHFlVDge5bbG7ReX7v3XzZR0xDyTa0L8mNX3tQEPjdc6Cm
+                        roles: 'ROLE_USER'
+        users_in_bbdd:
+            entity:
+                class: App\Entity\Usuario
+                property: nombre
+    
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+        App\Entity\Usuario:
+            algorithm: bcrypt
+            cost: 12
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,7 +30,7 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
+            provider: users_in_bbdd
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
