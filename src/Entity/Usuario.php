@@ -38,6 +38,11 @@ class Usuario implements UserInterface, \Serializable
      */
     private $activo;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $role;
+
     public function getId(): ?int
     {
         return $this->id;

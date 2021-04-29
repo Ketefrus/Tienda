@@ -1,5 +1,7 @@
 <div class="card text-white bg-dark shadow m-2" style="width: 18rem; height: 30rem">
+
 	<img height="240" width="60" class="card-img-top" src="{% if juego.imagen is empty %}/imgs/noimg.png{% else %}{{ asset('imgs/' ~ juego.imagen) }}{% endif %}">
+
 	<div class="card-body">
 		<h5 class="card-title">
 			{{ juego.nombre }}

@@ -58,3 +58,9 @@
     </table> #}
 
 <a href="{{ path('juego_new') }}">Create new</a>{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleCard.css') }}" type="text/css">
+
+{% endblock %}
