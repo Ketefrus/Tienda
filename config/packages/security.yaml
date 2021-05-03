@@ -40,6 +40,10 @@ security:
             logout:
                 path: app_logout
                 target: app_login
+        api:
+            pattern: ^/api/v1
+            anonymous: true
+            stateless: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -50,6 +54,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
+        
         # - { path: ^/admin, roles: ROLE_ADMIN }
         

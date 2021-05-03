@@ -36,5 +36,30 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+
+    App\BLL\BaseBLL:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@validator'
+
+    App\BLL\JuegoBLL:
+        autowire: false
+        autoconfigure: false
+        public: false
+        parent: App\BLL\BaseBLL
+
+    App\BLL\CategoriaBLL:
+        autowire: false
+        autoconfigure: false
+        public: false
+        parent: App\BLL\BaseBLL
+
+    # App\BLL\UserBLL:
+    #     autowire: false
+    #     autoconfigure: false
+    #     public: false
+    #     parent: App\BLL\BaseBLL
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
