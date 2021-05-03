@@ -55,11 +55,12 @@ services:
         public: false
         parent: App\BLL\BaseBLL
 
-    # App\BLL\UserBLL:
-    #     autowire: false
-    #     autoconfigure: false
-    #     public: false
-    #     parent: App\BLL\BaseBLL
-
+    App\BLL\UserBLL:
+        autowire: false
+        autoconfigure: false
+        public: false
+        parent: App\BLL\BaseBLL
+        calls:
+            - [ setEncoder, [ '@security.user_password_encoder.generic' ] ]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

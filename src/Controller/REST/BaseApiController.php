@@ -25,8 +25,9 @@ class BaseApiController extends AbstractController
         if (!is_null($data))
         {
             $result['data'] = $data;
+            $response->setContent(json_encode($result));
         }
-        $response->setContent(json_encode($result));
+        
         $response->setStatusCode($statusCode);
 
         return $response;

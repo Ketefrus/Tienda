@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Juego;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,6 +41,33 @@ class JuegoRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function getJuegosFiltrados(
+        string $order, string $categoria=null, string $descripcion=null,  string $nombre=null) : array
+    {
+        $qb = $this->createQueryBuilder('juego');
+        $qb->innerJoin('juego.categoria', 'categoria');
+
+        if (isset($categoria))
+        {
+            $qb->andWhere($qb->expr()->like('categoria.nombre', ':categoria'))
+            ->setParameter('categoria', "%$categoria%");
+        }
+
+        if (isset($nombre))
+        {
+            $qb->andWhere($qb->expr()->like('juego.nombre', ':nombre'))
+            ->setParameter('nombre', "%$nombre%");
+        }
+    
+        if (isset($descripcion))
+        {
+            $qb->andWhere($qb->expr()->like('juego.descripcion', ':descripcion'))
+            ->setParameter('descripcion', "%$descripcion%");
+        }
+        $qb->orderBy("juego.$order", 'ASC');
+        
+        return $qb->getQuery()->getResult();
+    }
     // +    public function findContactos(string $busqueda) {
     //     +        $qb = $this->createQueryBuilder('c');
     //     +        $qb->where(
