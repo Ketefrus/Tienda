@@ -88,6 +88,8 @@ class JuegoController extends AbstractController
      */
     public function edit(Request $request, Juego $juego, FileUploader $fileUploader): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(JuegoType::class, $juego);
         $form->handleRequest($request);
 
@@ -118,6 +120,8 @@ class JuegoController extends AbstractController
      */
     public function delete(Request $request, Juego $juego): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if (
             $this->isCsrfTokenValid(
                 'delete' . $juego->getId(),

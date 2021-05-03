@@ -13,9 +13,11 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link" href="{{ path('app_logout') }}" tabindex="-1">Cerrar sesión ({{ app.user.username }})</a>
         </li>
+        {% endif %}
       </ul>
     </div>
   </div>
