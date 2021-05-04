@@ -18,15 +18,22 @@ class BaseBLL
     private $validator;
     /** @var TokenStorageInterface */
     protected $tokenStorage;
+    /** @var string */
+    protected $imgDirectory;
+    /** @var string */
+    protected $imgUrl;
 
     function __construct(
         EntityManagerInterface $em,
         ValidatorInterface $validator,
-        TokenStorageInterface $tokenStorage)
+        TokenStorageInterface $tokenStorage,
+        string $imgDirectory, string $imgUrl)
     {
         $this->em = $em;
         $this->validator = $validator;
         $this->tokenStorage = $tokenStorage;
+        $this->imgDirectory = $imgDirectory;
+        $this->imgUrl = $imgUrl;
     }
 
     private function validate($entity)

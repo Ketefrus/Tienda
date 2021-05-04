@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     img_directory: '%kernel.project_dir%/public/imgs'
+    img_url: '/public/imgs/'
+    listado_idiomas:
+        es: Español
+        en: Inglés
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -42,6 +46,9 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@validator'
+            - '@security.token_storage'
+            - '%img_directory%'
+            - '%img_url%'
 
     App\BLL\JuegoBLL:
         autowire: false

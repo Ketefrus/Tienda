@@ -4,12 +4,38 @@ namespace App\BLL;
 
 use App\Entity\Categoria;
 use App\Entity\Juego;
-use Doctrine\Common\Collections\Collection;
 use Exception;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class JuegoBLL extends BaseBLL
 {
-    public function actualiza(Juego $juego, array $data)
+    private function guardaImagen($request, $juego, $data) {
+        $arr_img = explode (',', $data['imagen']);
+        if ( count ($arr_img) < 2)
+            throw new BadRequestHttpException('formato de imagen incorrecto');
+
+        $imgFoto = base64_decode ($arr_img[1]);
+        if (!is_null($imgFoto))
+        {
+            $fileName = $data['nombreImg'] . '-'. time() . '.jpg';
+            $juego->setImagen($fileName);
+            $ifp = fopen ($this->imgDirectory . '/' . $fileName, "wb");
+            if ($ifp)
+            {
+                $ok = fwrite ($ifp, $imgFoto);
+
+                fclose ($ifp);
+
+                if ($ok)
+                    return $this->guardaValidando($juego);
+            }
+        }
+
+        throw new \Exception('No se ha podido cargar la imagen del contacto');
+    }
+
+    public function actualiza(Request $request, Juego $juego, array $data)
     {
         $categoria = $this->em->getRepository(Categoria::class)->find($data['categoria']);
 
@@ -19,13 +45,13 @@ class JuegoBLL extends BaseBLL
         $juego->setCategoria($categoria);
         $juego->setDescripcion($data['descripcion']);
 
-        return $this->guardaValidando($juego);
+        return $this->guardaImagen($request, $juego, $data);
     }
 
-    public function nuevo(array $data) 
+    public function nuevo(Request $request, array $data) 
     {
         $juego = new Juego();
-        return $this->actualiza($juego, $data);
+        return $this->actualiza($request, $juego, $data);
     }
 
     public function getJuegosFiltrados(
@@ -37,9 +63,9 @@ class JuegoBLL extends BaseBLL
         return $this->entitiesToArray($juegos);
     }
 
-    public function update(Juego $juego, array $data)
+    public function update(Request $request, Juego $juego, array $data)
     {
-        return $this->actualiza($juego, $data);
+        return $this->actualiza($request, $juego, $data);
     }
     public function toArray($juego)
     {

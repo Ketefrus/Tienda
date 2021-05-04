@@ -55,7 +55,7 @@ class JuegoRestController extends BaseApiController
     public function post(Request $request, JuegoBLL $juegoBLL)
     {
         $data = $this->getContent($request);
-        $juego = $juegoBLL->nuevo($data);
+        $juego = $juegoBLL->nuevo($request, $data);
         return $this->getResponse(
             $juego, Response:: HTTP_CREATED
         );
@@ -73,7 +73,7 @@ class JuegoRestController extends BaseApiController
     {
         $data = $this->getContent($request);
 
-        $juego = $juegoBLL->update($juego, $data);
+        $juego = $juegoBLL->update($request, $juego, $data);
 
         return $this->getResponse($juego);
     }
