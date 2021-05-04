@@ -3,10 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Juego;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * @method Juego|null find($id, $lockMode = null, $lockVersion = null)
  * @method Juego|null findOneBy(array $criteria, array $orderBy = null)
@@ -20,7 +20,7 @@ class JuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Juego::class);
     }
 
-    public function findJuegos(string $busqueda)
+    public function findJuegos(string $busqueda, $elementos_por_pagina=5,$pagina = 2)
     {
         $qb = $this->createQueryBuilder('j');
         
@@ -38,7 +38,20 @@ class JuegoRepository extends ServiceEntityRepository
         }
         $qb->orderBy('j.nombre', 'ASC');
 
-        return $qb->getQuery()->execute();
+        $qb->getQuery();
+        echo '<script>';
+        echo 'console.log('. json_encode( $pagina ) .')';
+        echo '</script>';
+        return $this->paginacion($qb, $pagina, $elementos_por_pagina);
+    }
+
+    public function paginacion($dql, $pagina = 1, $elementos_por_pagina = 5)
+    {
+        $paginador = new Paginator($dql);
+        $paginador->getQuery()
+            ->setFirstResult($elementos_por_pagina * ($pagina - 1))
+            ->setMaxResults($elementos_por_pagina);
+        return  $paginador;
     }
 
     public function getJuegosFiltrados(

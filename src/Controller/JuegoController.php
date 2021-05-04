@@ -21,20 +21,25 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class JuegoController extends AbstractController
 {
+    const ELEMENTOS_POR_PAGINA = 5;
     /**
-     * @Route("/", name="juego_index", methods={"GET","POST"})
+     * @Route("/{pagina}", 
+     * defaults={"pagina": 1 },
+     * requirements={"pagina"="\d+"},
+     * name="juego_index", methods={"GET","POST"})
      */
-    public function index(JuegoRepository $juegoRepository, Request $request ): Response 
+    public function index(int $pagina, JuegoRepository $juegoRepository, Request $request ): Response 
     {
         $busqueda =
             $request->getMethod() === 'POST'
                 ? $request->request->get('search')
                 : '';
 
-        $juegos = $juegoRepository->findJuegos($busqueda);
+        $juegos = $juegoRepository->findJuegos($busqueda, self::ELEMENTOS_POR_PAGINA, $pagina);
 
         return $this->render('juego/index.html.twig', [
             'juegos' => $juegos,
+            'pagina' => $pagina
         ]);
     }
 
