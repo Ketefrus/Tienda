@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="es" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="LrqUay4" resname="Editar">
+        <source>Editar</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="kRGRy56" resname="Volver a inicio">
+        <source>Volver a inicio</source>
+        <target>Volver a inicio</target>
+      </trans-unit>
+      <trans-unit id="WPzJRo." resname="Inicio">
+        <source>Inicio</source>
+        <target>Inicio</target>
+      </trans-unit>
+      <trans-unit id="m9N8qcx" resname="Listado de juegos">
+        <source>Listado de juegos</source>
+        <target>Listado de juegos</target>
+      </trans-unit>
+      <trans-unit id="Bp2f4N5" resname="Nuevo">
+        <source>Nuevo</source>
+        <target>Nuevo</target>
+      </trans-unit>
+      <trans-unit id="gQrDfch" resname="Añade un juego">
+        <source>Añade un juego</source>
+        <target>Añade un juego</target>
+      </trans-unit>
+      <trans-unit id="qyaue8o" resname="Volver">
+        <source>Volver</source>
+        <target>Volver</target>
+      </trans-unit>
+      <trans-unit id="8aGVNbS" resname="Juego">
+        <source>Juego</source>
+        <target>Juego</target>
+      </trans-unit>
+      <trans-unit id="ViuxV1e" resname="Nombre">
+        <source>Nombre</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="LkOFtgV" resname="Precio">
+        <source>Precio</source>
+        <target>Precio</target>
+      </trans-unit>
+      <trans-unit id="7gC5b.8" resname="Descripción">
+        <source>Descripción</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="wRr36uN" resname="Añadir juego">
+        <source>Añadir juego</source>
+        <target>Añadir juego</target>
+      </trans-unit>
+      <trans-unit id="xuaWA5X" resname="Cerrar sesión">
+        <source>Cerrar sesión</source>
+        <target>Cerrar sesión</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

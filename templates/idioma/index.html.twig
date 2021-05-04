@@ -1,32 +1,29 @@
 <div class="dropdown">
+  <button class="btn btn-outline-primary dropdown-toggle"
+    href="#"
+    type="button"
+    id="selectorIdioma"
+    data-bs-toggle="dropdown">
+    {{ listado_idiomas[idioma_actual] }}
+  </button>
 
-    <a class="btn btn-outline-primary dropdown-toggle"
-        href="#"
-        role="button"
-        id="selectorIdioma"
-        data-toggle="dropdown">
-        {{ listado_idiomas[idioma_actual] }}
-    </a>    
-    
-    <div class="dropdown-menu" aria-labelledby="selectorIdioma">
-        {% for lenguaje, nombre_lenguaje in listado_idiomas %}
-            <form action="{{
-                path(
-                    'app_idioma',
-                    {
-                        '_locale': lenguaje
-                    }
-                )
-            }}"
-            method="POST">
-                <input type="hidden" name="ruta" value="{{ ruta }}"/>
-                <button 
-                    type="submit"
-                    class="btn dropdown-item {{ idioma_actual == lenguaje ? 'active' }}">
-                    {{ nombre_lenguaje }}
-                </button>
-            </form>    
-        {% endfor %}
-    </div>
-
+  <div class="dropdown-menu" aria-labelledby="selectorIdioma">
+    {% for lenguaje, nombre_lenguaje in listado_idiomas %}
+      <form action="{{
+        path(
+          'app_idioma',
+          {
+            '_locale': lenguaje
+          }
+        )
+        }}"
+        method="POST">
+        <input type="hidden" name="ruta" value="{{ ruta }}" />
+        <button type="submit"
+          class="btn dropdown-item {{ idioma_actual == lenguaje ? 'active' }}">
+          {{ nombre_lenguaje }} 
+        </button>
+      </form>
+    {% endfor %}
+  </div>
 </div>

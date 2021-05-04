@@ -19,8 +19,8 @@ class IdiomaController extends AbstractController
      */
     public function index(string $ruta, Request $request)
     {
-        $idiomaActual = "es";
-        // $idiomaActual = $request->getSession()->get('_locale');
+        // $idiomaActual = "es";
+        $idiomaActual = $request->getSession()->get('_locale');
         $metodo = $request->getMethod();
         if ("POST" === $metodo) {
             $ruta = $request->request->get('ruta');

@@ -120,7 +120,7 @@ class JuegoController extends AbstractController
      */
     public function delete(Request $request, Juego $juego): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if (
             $this->isCsrfTokenValid(

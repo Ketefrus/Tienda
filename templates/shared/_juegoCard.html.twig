@@ -1,29 +1,18 @@
-<div class="card text-white bg-dark shadow m-2" style="width: 18rem; height: 30rem">
+<a href="{{path('juego_show', {'id': juego.id})}}">
+<div class="card text-white bg-dark shadow m-2" style="width: 220px; height: 320px">
+	
+	<img height="320" width="220" class="card-img" src="{% if juego.imagen is empty %}/imgs/noimg.png{% else %}{{ asset('imgs/' ~ juego.imagen) }}{% endif %}">
 
-	<img height="240" width="60" class="card-img-top" src="{% if juego.imagen is empty %}/imgs/noimg.png{% else %}{{ asset('imgs/' ~ juego.imagen) }}{% endif %}">
-
-	<div class="card-body">
-		<h5 class="card-title">
-			{{ juego.nombre }}
-		</h5>
-		<div class="row">
-			<div class="col">
-				<p class="card-text">
-					{{ juego.descripcion }}
-				</p>
-			</div>
-			<div class="col">
-				<p class="text-end">{{ juego.categoria }}
-				</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col text-muted">{{ juego.precio }}€
+	<div class="card-img-overlay d-flex flex-column">
+		<div class="row mt-auto">
+			<div class="col text-end">{{ juego.precio }}€
 			</div>
 		</div>
 	</div>
-	<div class="card-footer bg-transparent gap-2 d-md-flex justify-content-md-end">
-		<a class="btn btn-sm btn-outline-info" href="{{ path('juego_show', {'id': juego.id}) }}">show</a>
-		<a class="btn btn-sm btn-primary" href="{{ path('juego_edit', {'id': juego.id}) }}">edit</a>
-	</div>
+
 </div>
+	</a>
+<div>
+		<p class="lead text-center fs-3">
+			{{ juego.nombre }} ({{juego.categoria}})
+		</p></div>
