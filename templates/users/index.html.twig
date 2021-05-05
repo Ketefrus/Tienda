@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'Inicio'|trans }}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-3">
+            <img class="rounded-circle"
+              height="200"
+              width="200"
+              src="{{ asset('imgs/descargar.png') }}" />
+              <button class="btn btn-outline-dark m-4">{{'Cambiar imagen'|trans}}</button>
+          </div>
+
+          <div class="col-9">
+            <h4>
+              {{ usuario.nombre }}
+            </h4>
+            <h4>
+              <small class="text-muted">{{ usuario.email }}</small>
+            </h4>
+
+            <p>
+            {% include 'users/changePass.html.twig' %}
+            
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

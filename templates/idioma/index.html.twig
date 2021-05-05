@@ -1,11 +1,12 @@
-<div class="dropdown">
-  <button class="btn btn-outline-primary dropdown-toggle"
+{% if app.user %}
+<div class="nav-item dropdown">
+  <a class=" nav-link dropdown-toggle"
     href="#"
     type="button"
     id="selectorIdioma"
     data-bs-toggle="dropdown">
     {{ listado_idiomas[idioma_actual] }}
-  </button>
+  </a>
 
   <div class="dropdown-menu" aria-labelledby="selectorIdioma">
     {% for lenguaje, nombre_lenguaje in listado_idiomas %}
@@ -20,10 +21,11 @@
         method="POST">
         <input type="hidden" name="ruta" value="{{ ruta }}" />
         <button type="submit"
-          class="btn dropdown-item {{ idioma_actual == lenguaje ? 'active' }}">
+          class="dropdown-item {{ idioma_actual == lenguaje ? 'active' }}">
           {{ nombre_lenguaje }} 
         </button>
       </form>
     {% endfor %}
   </div>
 </div>
+{% endif %}

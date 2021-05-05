@@ -67,6 +67,9 @@ class Usuario implements UserInterface, \Serializable
 
     public function setPassword(string $password): self
     {
+        echo '<script>';
+        echo 'console.log('. json_encode( $password ) .')';
+        echo '</script>';
         $this->password = $password;
 
         return $this;
