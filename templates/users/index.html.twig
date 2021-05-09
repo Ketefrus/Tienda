@@ -13,7 +13,7 @@
             <img class="rounded-circle"
               height="200"
               width="200"
-              src="{{ asset('imgs/descargar.png') }}" />
+              src= src="{% if usuario.imagen is empty %}/imgs/descargar.png{% else %}{{ asset('imgs/' ~ usuario.imagen) }}{% endif %}" />
               <button class="btn btn-outline-dark m-4">{{'Cambiar imagen'|trans}}</button>
           </div>
 

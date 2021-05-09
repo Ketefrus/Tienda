@@ -43,6 +43,11 @@ class Usuario implements UserInterface, \Serializable
      */
     private $role;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagen;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,6 +150,18 @@ class Usuario implements UserInterface, \Serializable
     public function setRole(string $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): self
+    {
+        $this->imagen = $imagen;
 
         return $this;
     }
