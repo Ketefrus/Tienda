@@ -7,6 +7,7 @@ use App\Form\JuegoType;
 use App\Repository\JuegoRepository;
 use App\Service\FileUploader;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,7 @@ class JuegoController extends AbstractController
     /**
      * @Route("juego/new", name="juego_new", methods={"GET","POST"})
      */
-    public function new(Request $request, FileUploader $fileUploader): Response
+    public function new(Request $request, TokenStorageInterface $tokenStorage, FileUploader $fileUploader): Response
     {
         $error = '';
         try {
@@ -63,6 +64,8 @@ class JuegoController extends AbstractController
                     // $juego->setImagen($newFilename);
                 }
 
+                $usuario = $tokenStorage->getToken()->getUser();
+                $juego->setPropietario($usuario);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($juego);
                 $entityManager->flush();

@@ -44,6 +44,7 @@ class JuegoBLL extends BaseBLL
         $juego->setPrecio($data['precio']);
         $juego->setCategoria($categoria);
         $juego->setDescripcion($data['descripcion']);
+        $juego->setPropietario($this->getUser());
 
         return $this->guardaImagen($request, $juego, $data);
     }
@@ -79,7 +80,8 @@ class JuegoBLL extends BaseBLL
             'nombre' => $juego->getNombre(),
             'categoria' => $juego->getCategoria()->getNombre(),
             'precio' => $juego->getPrecio(),
-            'descripcion' => $juego->getDescripcion()
+            'descripcion' => $juego->getDescripcion(),
+            'propietario' => $juego->getPropietario(),
         ];
     }
 }

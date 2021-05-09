@@ -46,6 +46,12 @@ class Juego
      */
     private $categoria;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="juegos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $propietario;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,6 +131,18 @@ class Juego
     public function setCategoria(?Categoria $categoria): self
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getPropietario(): ?Usuario
+    {
+        return $this->propietario;
+    }
+
+    public function setPropietario(?Usuario $propietario): self
+    {
+        $this->propietario = $propietario;
 
         return $this;
     }

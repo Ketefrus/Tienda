@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -51,6 +53,16 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Juego::class, mappedBy="propietario")
+     */
+    private $juegos;
+
+    public function __construct()
+    {
+        $this->juegos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -182,6 +194,36 @@ class Usuario implements UserInterface, \Serializable
     public function setImagen(?string $imagen): self
     {
         $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Juego[]
+     */
+    public function getJuegos(): Collection
+    {
+        return $this->juegos;
+    }
+
+    public function addJuego(Juego $juego): self
+    {
+        if (!$this->juegos->contains($juego)) {
+            $this->juegos[] = $juego;
+            $juego->setPropietario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJuego(Juego $juego): self
+    {
+        if ($this->juegos->removeElement($juego)) {
+            // set the owning side to null (unless already changed)
+            if ($juego->getPropietario() === $this) {
+                $juego->setPropietario(null);
+            }
+        }
 
         return $this;
     }
