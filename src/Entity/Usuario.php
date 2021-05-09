@@ -28,6 +28,10 @@ class Usuario implements UserInterface, \Serializable
      */
     private $password;
 
+    private $imagenFile;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -84,7 +88,23 @@ class Usuario implements UserInterface, \Serializable
     {
         return $this->email;
     }
+    /**
+     * @return mixed
+     */
+    public function getImagenFile()
+    {
+        return $this->imagenFile;
+    }
 
+    /**
+     * @param mixed $imagenFile
+     * @return Usuario
+     */
+    public function setImagenFile($imagenFile)
+    {
+        $this->imagenFile = $imagenFile;
+        return $this;
+    }
     public function setEmail(string $email): self
     {
         $this->email = $email;
