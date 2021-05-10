@@ -20,13 +20,17 @@ class JuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Juego::class);
     }
 
-    public function findJuegos(string $busqueda, $elementos_por_pagina=5,$pagina = 2)
+    public function findJuegos(string $busqueda, $elementos_por_pagina=5,$pagina = 2, $propietario = '')
     {
         $qb = $this->createQueryBuilder('j');
         
         $qb->addSelect('categoria');
         $qb->innerJoin('j.categoria', 'categoria');
 
+        $qb->innerJoin('j.propietario', 'propietario');
+        echo '<script>';
+        echo 'console.log('. json_encode( $propietario ) .')';
+        echo '</script>';
         if (!empty($busqueda)) {
             $qb
                 ->where(
@@ -36,12 +40,16 @@ class JuegoRepository extends ServiceEntityRepository
                 )
                 ->setParameter('busqueda', '%' . $busqueda . '%');
         }
+
+        if (!empty($propietario))
+        {
+            $qb->andWhere($qb->expr()->like('propietario.id', ':propietario'))
+            ->setParameter('propietario', '%' .$propietario. '%');
+        }
         $qb->orderBy('j.nombre', 'ASC');
 
         $qb->getQuery();
-        echo '<script>';
-        echo 'console.log('. json_encode( $pagina ) .')';
-        echo '</script>';
+
         return $this->paginacion($qb, $pagina, $elementos_por_pagina);
     }
 

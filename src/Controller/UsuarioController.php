@@ -26,7 +26,6 @@ class UsuarioController extends AbstractController
     TokenStorageInterface $tokenStorage
   ): Response {
     $usuario = $tokenStorage->getToken()->getUser();
-
     return $this->render('users/index.html.twig', [
       'usuario' => $usuario,
     ]);

@@ -52,6 +52,11 @@ class Juego
      */
     private $propietario;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Usuario::class, inversedBy="juego_comprado", cascade={"persist", "remove"})
+     */
+    private $comprador;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,6 +148,18 @@ class Juego
     public function setPropietario(?Usuario $propietario): self
     {
         $this->propietario = $propietario;
+
+        return $this;
+    }
+
+    public function getComprador(): ?Usuario
+    {
+        return $this->comprador;
+    }
+
+    public function setComprador(?Usuario $comprador): self
+    {
+        $this->comprador = $comprador;
 
         return $this;
     }

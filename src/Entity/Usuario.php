@@ -59,6 +59,11 @@ class Usuario implements UserInterface, \Serializable
      */
     private $juegos;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Juego::class, mappedBy="comprador", cascade={"persist", "remove"})
+     */
+    private $juego_comprado;
+
     public function __construct()
     {
         $this->juegos = new ArrayCollection();
@@ -224,6 +229,28 @@ class Usuario implements UserInterface, \Serializable
                 $juego->setPropietario(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJuegoComprado(): ?Juego
+    {
+        return $this->juego_comprado;
+    }
+
+    public function setJuegoComprado(?Juego $juego_comprado): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($juego_comprado === null && $this->juego_comprado !== null) {
+            $this->juego_comprado->setComprador(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($juego_comprado !== null && $juego_comprado->getComprador() !== $this) {
+            $juego_comprado->setComprador($this);
+        }
+
+        $this->juego_comprado = $juego_comprado;
 
         return $this;
     }

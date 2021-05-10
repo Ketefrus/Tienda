@@ -4,6 +4,7 @@ namespace App\BLL;
 
 use App\Entity\Categoria;
 use App\Entity\Juego;
+use Doctrine\ORM\Mapping\Id;
 use Exception;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +82,7 @@ class JuegoBLL extends BaseBLL
             'categoria' => $juego->getCategoria()->getNombre(),
             'precio' => $juego->getPrecio(),
             'descripcion' => $juego->getDescripcion(),
-            'propietario' => $juego->getPropietario(),
+            'propietario' => $juego->getPropietario()->getNombre(),
         ];
     }
 }

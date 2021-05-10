@@ -45,6 +45,48 @@ class JuegoController extends AbstractController
     }
 
     /**
+     * @Route("cliente/mis_juegos/{pagina}", 
+     * defaults={"pagina": 1 },
+     * requirements={"pagina"="\d+"},
+     * name="juegos_cliente", methods={"GET","POST"})
+     */
+    public function misJuegos(int $pagina, JuegoRepository $juegoRepository, Request $request, TokenStorageInterface $tokenStorage ): Response 
+    {
+        $usuario = $tokenStorage->getToken()->getUser();
+
+        $busqueda =
+            $request->getMethod() === 'POST'
+                ? $request->request->get('search')
+                : '';
+
+        $juegos = $juegoRepository->findJuegos($busqueda, self::ELEMENTOS_POR_PAGINA, $pagina, $usuario->getId());
+
+        return $this->render('juego/index.html.twig', [
+            'juegos' => $juegos,
+            'pagina' => $pagina
+        ]);
+    }
+
+    /**
+     * @Route("juego/comprar/{id}", name="juego_comprar",methods={"POST"})
+     */
+    public function buy(Request $request, Juego $juego, TokenStorageInterface $tokenStorage) : Response 
+    {
+        try {
+            $usuario = $tokenStorage->getToken()->getUser();
+
+            $juego->setComprador($usuario);
+
+            $this->getDoctrine()
+            ->getManager()
+            ->flush();
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $this->redirectToRoute('juego_show',[ 'id'=> $juego->getId()]);
+    }
+    /**
      * @Route("juego/new", name="juego_new", methods={"GET","POST"})
      */
     public function new(Request $request, TokenStorageInterface $tokenStorage, FileUploader $fileUploader): Response
