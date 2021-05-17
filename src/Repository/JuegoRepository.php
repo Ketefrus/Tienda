@@ -20,7 +20,7 @@ class JuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Juego::class);
     }
 
-    public function findJuegos(string $busqueda, $elementos_por_pagina=5,$pagina = 2, $propietario = '')
+    public function findJuegos(string $busqueda = null, $elementos_por_pagina=5,$pagina = 2, $propietario = '', $categoria = '')
     {
         $qb = $this->createQueryBuilder('j');
         
@@ -40,7 +40,12 @@ class JuegoRepository extends ServiceEntityRepository
                 )
                 ->setParameter('busqueda', '%' . $busqueda . '%');
         }
-
+        
+        if (!empty($categoria))
+        {
+            $qb->andWhere($qb->expr()->like('categoria.id', ':categoria'))
+            ->setParameter('categoria', '%' .$categoria. '%');
+        }
         if (!empty($propietario))
         {
             $qb->andWhere($qb->expr()->like('propietario.id', ':propietario'))

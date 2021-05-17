@@ -3,10 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Usuario;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -19,7 +23,13 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
+            ->add('nombre', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'El nombre no puede estar en blanco'
+                    ])
+                ]
+            ])
             ->add('email')           
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -51,7 +61,8 @@ class RegistrationFormType extends AbstractType
                         'mimeTypesMessage' => 'Por favor sube una imágen',
                     ])
                 ],
-            ]);
+            ])
+            ->add('captcha', CaptchaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
