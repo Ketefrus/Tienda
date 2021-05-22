@@ -6,6 +6,7 @@ use App\Entity\Juego;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,13 @@ class JuegoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
+            ->add('nombre', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'El nombre no puede estar en blanco'
+                    ])
+                ]
+            ])
             ->add('precio')
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen',
@@ -35,7 +42,13 @@ class JuegoType extends AbstractType
                     ])
                 ],
             ])
-            ->add('descripcion')
+            ->add('descripcion', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'La descripción no puede estar en blanco'
+                    ])
+                ]
+            ])
             ->add('categoria')
         ;
     }

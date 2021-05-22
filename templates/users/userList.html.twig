@@ -15,6 +15,9 @@
             email
           </th>
           <th scope="col">
+          {{'Rol'|trans}}
+          </th>
+          <th scope="col">
           {{'acciones'|trans}}
           </th>
         </tr>
@@ -30,6 +33,13 @@
             </td>
             <td>
               {{ usuario.email }}
+            </td>
+            <td>
+            {% if usuario.role == 'ROLE_ADMIN' %}
+              Admin
+            {% else %}
+              Usuario
+            {% endif %}
             </td>
             <td>
               <a class="btn btn-outline-primary" href="{{ path('admin_usuario', {'id': usuario.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>

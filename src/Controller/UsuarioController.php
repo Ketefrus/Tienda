@@ -63,6 +63,23 @@ class UsuarioController extends AbstractController
     return $this->redirectToRoute('juego_index');
   }
   /**
+   * @Route("admin/user_admin{id}",
+   * name="user_admin",
+   * methods={"POST", "GET"})
+   */
+  public function hacerAdmin(Usuario $usuario, UsuarioRepository $usuarioRepository)
+  {
+    $usuario = $usuarioRepository->find($usuario);
+
+    $usuario->setRole('ROLE_ADMIN');
+
+    $this->getDoctrine()
+    ->getManager()
+    ->flush();
+
+    return $this->redirectToRoute('admin_usuario', ['id' => $usuario->getId()]);
+  }
+  /**
    * @Route("admin/listado",
    * name="user_listado",
    * methods={"GET"})

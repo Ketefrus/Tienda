@@ -33,11 +33,13 @@
             {{'Mis juegos'|trans }}
             </a>
           </li>
-                    <li class="nav-item">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.role == 'ROLE_ADMIN' %}
+          <li class="nav-item">
             <a class="nav-link" href="{{ path('user_listado') }}">
               {{ 'Clientes'|trans }}
             </a>
           </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('user_perfil') }}">
               {{ 'Mi perfil'|trans }}
